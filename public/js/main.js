@@ -42,7 +42,6 @@ const addPosteServeur = async (event) => {
     if(formulaire.checkValidity()){
         let data = {
             id_user: 1,
-            timestamps: date.getTime(),
             text : textPoste.value
         }
         // Envoie des données au serveur si c'est valide
@@ -56,7 +55,6 @@ const addPosteServeur = async (event) => {
         if(response.ok){
             addPosteClient({
                 id_user: 1,
-                timestamps: date.getTime(),
                 text: textPoste.value
             });
 

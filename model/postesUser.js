@@ -6,7 +6,7 @@ export const getPostUser = async (id_user) => {
     let connexion = await connectionPromise;
     let resultat = await connexion.all(
         `
-            SELECT u.name, p.text, p.timestamp, COUNT(l.id_post) AS nbLikes
+            SELECT u.name, p.text, datetime (p.timestamp, 'unixepoch') as datetime, COUNT(l.id_post) AS nbLikes
             FROM posts p
             INNER JOIN users u ON p.id_user = u.id_user 
             LEFT JOIN likes l ON l.id_post = p.id_post

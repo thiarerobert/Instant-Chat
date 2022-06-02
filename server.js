@@ -47,7 +47,7 @@ app.get('/', async (request, response) =>{
 app.post('/', async (request, response) => {
 
         if(textPosteValidation(request.body.text)){
-            let idPoste = await addPoste (request.body.id_user, request.body.text, request.body.timestamps);
+            let idPoste = await addPoste (request.body.id_user, request.body.text);
             response.status(200).json(idPoste);
         }
         else{

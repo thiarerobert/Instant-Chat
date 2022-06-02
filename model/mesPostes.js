@@ -6,7 +6,7 @@ import connectionPromise from "./connection.js"
 export const getPostes = async () =>{
     let connection = await connectionPromise;
     let resultat = await connection.all(
-        `SELECT u.name, p.text, p.timestamp, count(l.id_post) AS nbLikes
+        `SELECT u.name, p.text, datetime (p.timestamp, 'unixepoch') as datetime, count(l.id_post) AS nbLikes
         FROM posts p
         INNER JOIN users u ON u.id_user = p.id_user
         LEFT JOIN likes l ON l.id_post = p.id_post
@@ -23,9 +23,9 @@ export const addPoste = async (id_post ,id_user, text, timestamp) => {
     let resultat = await connection.run(
         `
             INSERT INTO posts (id_user, text, timestamp) 
-            VALUES(?, ?, ?)
+            VALUES(?, ?, strftime('%s', 'now'))
         `,
-            [id_post ,id_user, text, timestamp]
+            [id_post ,id_user, text]
     )
 
     return resultat.id_post;
