@@ -1,0 +1,55 @@
+
+#Glyph {
+    width: 30px;
+}
+
+#search{
+    width: 50%;
+    height: 2rem;
+    border: 3px solid;
+    border-radius: 20px;
+}
+
+.divUser a{
+    text-decoration: none;
+    font-size: 25px;
+    color: #000;
+}
+
+.retour {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    text-decoration: none;
+}
+.profil {
+    width: 10rem;
+    height: 10rem;
+}
+.divUser {
+    display: flex;   
+    width: 30rem;
+    height: 3rem;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 1rem;
+}
+ .nameUser{
+    list-style-type: none;
+    
+}
+
+
+.error {
+    border: 2px solid #a00
+}
+
+.error-field {
+    display: none;
+    color: #a00;
+    font-style: italic;
+}
+
+.error.active {
+    display: block;
+}

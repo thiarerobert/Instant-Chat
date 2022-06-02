@@ -1,0 +1,28 @@
+.publication {
+    list-style-type: none;
+    font-size: 20px;
+    width: 75%;
+    margin: 0 auto;
+    gap: 1rem;
+}
+
+.div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.post {
+    border: 1px solid;
+}
+
+.like {
+    width: 20px;
+    height: 20px;
+}
+
+.retour {
+    text-decoration: none;
+    font-size: 20px;
+    color: #000;
+}

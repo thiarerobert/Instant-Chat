@@ -1,0 +1,40 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit
+}
+
+header, footer {
+    background-color: #4f29b8;
+    padding: 1rem;
+}
+
+header{
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: baseline;
+    justify-content:center;
+    gap: 0 1rem;
+}
+
+footer {
+    font-size: 20px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+
+
+
