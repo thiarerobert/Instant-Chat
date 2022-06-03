@@ -13,6 +13,8 @@ import { addPoste, getPostes} from './model/mesPostes.js';
 import { getUser } from './model/recherche.js';
 import { getPostUser } from './model/postesUser.js';
 import { textPosteValidation, searchValidation } from './validation.js';
+import { response } from 'express';
+import { request } from 'express';
 
 
 
@@ -101,6 +103,19 @@ app.get('/publications/:userID', async (request, response) => {
     });
 });
 
+app.get('/signUp', (request, response) => {
+    response.render('compte', {
+        title: 'Sign-Up',
+        styles: ['/css/compte.css']
+    });
+});
+
+app.get ('/login', (request, response) => {
+    response.render('connexion', {
+        title: 'login',
+        styles: ['/css/connexion.css']
+    });
+});
 // Renvoyer une erreur 404 pour les routes non définies
 app.use(function (request, response) {
     // Renvoyer simplement une chaîne de caractère indiquant que la page n'existe pas
