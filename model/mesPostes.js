@@ -18,7 +18,7 @@ export const getPostes = async () =>{
 }
 
 //Fonction pour ajouter une publication dans la base de données.
-export const addPoste = async (id_post ,id_user, text, timestamp) => {
+export const addPoste = async (id_post ,id_user, text) => {
     let connection = await connectionPromise;
     let resultat = await connection.run(
         `

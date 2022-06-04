@@ -1,24 +1,19 @@
 <div>
     <h1>Création de compte</h1>
-    <form id="signIn" class="formulaire">
+    <form id="compte" class="formulaire" novalidate>
         <label>
-            Nom: 
-            <input type="text" required>
-        </label>
-        
-        <label>
-            Prénom: 
-            <input type="text" required>
+            Nom et Prenom: 
+            <input type="text" id="textNom" required>
         </label>
         
         <label>
             Adresse email: 
-            <input type="text" required>
+            <input type="text" id="textEmail" required>
         </label>
         
         <label>
             Mot de passe: 
-            <input type="password" required>
+            <input type="password" id="textPassword" required>
         </label>
         
         <input type="submit" value="Créer un compte" class="btnCompte">

@@ -15,6 +15,7 @@ import { getPostUser } from './model/postesUser.js';
 import { textPosteValidation, searchValidation } from './validation.js';
 import { response } from 'express';
 import { request } from 'express';
+import { addNewUser } from './model/compte.js';
 
 
 
@@ -110,6 +111,20 @@ app.get('/signUp', (request, response) => {
     });
 });
 
+app.post('/signup', async (request, response) => {
+    console.log(request.body.id_user,
+        request.body.email,
+        request.body.password,
+        request.body.name);
+    let newUser = await addNewUser(
+        request.body.id_user,
+        request.body.email,
+        request.body.password,
+        request.body.name
+    );
+
+    response.status(200).json(newUser);
+});
 app.get ('/login', (request, response) => {
     response.render('connexion', {
         title: 'login',
