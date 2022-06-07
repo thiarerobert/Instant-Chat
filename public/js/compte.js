@@ -1,40 +1,31 @@
 let compte = document.getElementById('compte');
-let textNom = document.getElementById('textNom');
-let textEmail = document.getElementById('textEmail');
-let textPassword = document.getElementById('textPassword');
-
-export const addMessageClient = () => {
-    let div = document.createElement('div');
-    compte.appendChild(div);
-}
+let inputNom = document.getElementById('textNom');
+let inputEmail = document.getElementById('textEmail');
+let inputPassword = document.getElementById('textPassword');
 
 /**
  * 
  * @param {Event} event 
  */
-export const getNewUser = async (event) => {
+export const getNewUser = (event) => {
     event.preventDefault();
-    console.log('allo');
-    let data= {
-        textNom: textNom.value,
-        textEmail: textEmail.value,
-        textPassword: textPassword.value
+
+    let data = {
+        nom: inputNom.value,
+        email: inputEmail.value,
+        password: inputPassword.value
     }
 
-    let response = await fetch('/signup', {
-       method: 'POST',
-       headers: {'Content-Type': 'application/json'},
-       body: JSON.stringify(data) 
+    let response = await fetch ('/compte', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
     });
-    
-    if(response.ok){
-        addMessageClient({
-            textNom: textNom.value,
-        textEmail: textEmail.value,
-        textPassword: textPassword.value
-        });
-       
+
+    if(response.ok) {
+        window.location.reload();
+        console.log(data);
     }
-} 
+}
 
 compte.addEventListener('submit', getNewUser);

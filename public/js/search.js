@@ -52,6 +52,6 @@ utilisateur.addEventListener('submit', searchValidation);
         window.location.replace('/search/'+ texteSearch)
     }
 }
-
+console.log('allo');
 //Appel de la fonction d'envoyer de la données dans l'URL au click
 utilisateur.addEventListener('submit', addNameServeur);

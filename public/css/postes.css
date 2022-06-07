@@ -4,7 +4,7 @@
     font-size: 25px;
     border-radius: 20%;
     margin-left: 2rem;
-    background-color: rgb(196, 193, 193);
+    background-color: #4f29b8;
 }
 
 .btnLinkRechercher a {
@@ -33,6 +33,9 @@
     justify-content: space-between;
 }
 
+#textPoste {
+    border: 2px ridge;
+}
 #formulaire {
     display: flex;
     flex-direction: column;
@@ -42,10 +45,12 @@
     margin: 0 auto;
     max-width: 50rem;
     margin-bottom: 2rem;
+    
 }
 
 .postes {
-    border: 1px solid;
+    border: 1px ridge;
+    
 }
 
 .like {

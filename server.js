@@ -104,18 +104,21 @@ app.get('/publications/:userID', async (request, response) => {
     });
 });
 
-app.get('/signUp', (request, response) => {
+app.get('/compte', (request, response) => {
     response.render('compte', {
         title: 'Sign-Up',
-        styles: ['/css/compte.css']
+        styles: ['/css/compte.css'],
+        scripts: ['/js/compte.js']
     });
 });
 
-app.post('/signup', async (request, response) => {
-    console.log(request.body.id_user,
+app.post('/compte', async (request, response) => {
+    console.log(
+        request.body.id_user,
         request.body.email,
         request.body.password,
         request.body.name);
+        
     let newUser = await addNewUser(
         request.body.id_user,
         request.body.email,
