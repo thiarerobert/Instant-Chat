@@ -8,5 +8,12 @@ export const textPosteValidation = (textPoste) => {
 export const searchValidation = (texte) => {
     return typeof texte === 'string' && !!texte;
  }
+
+ export const validateEmail = (email) => {
+   typeof email === 'string' && !!email ;
+ }
+ export const validatePassword = (password) => {
+   typeof password === 'string' && !!password ;
+}
      
     

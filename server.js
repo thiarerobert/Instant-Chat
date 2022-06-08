@@ -8,14 +8,18 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
 import cspOption from './csp-options.js';
+import session from 'express-session';
+import passport from 'passport';
 import './model/connection.js';
 import { addPoste, getPostes} from './model/mesPostes.js';
 import { getUser } from './model/recherche.js';
 import { getPostUser } from './model/postesUser.js';
-import { textPosteValidation, searchValidation } from './validation.js';
-import { response } from 'express';
-import { request } from 'express';
+import { textPosteValidation, searchValidation, validateEmail, validatePassword } from './validation.js';
 import { addNewUser } from './model/compte.js';
+import memorystore from 'memorystore';
+import { request } from 'express';
+import { response } from 'express';
+import './auth.js';
 
 
 
@@ -23,6 +27,8 @@ import { addNewUser } from './model/compte.js';
 const app = express();
 app.engine('handlebars', expressHandlebars());
 app.set('view engine', 'handlebars');
+const MemoryStore = memorystore(session);
+
 
 // Ajout de middlewares
 app.use(helmet(cspOption));
@@ -30,6 +36,17 @@ app.use(compression());
 app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: false }));
+app.use(express.static('public'));
+app.use(session ({
+    cookie: {maxAge: 3600000 },
+    name: process.env.npm_package_name,
+    store: new MemoryStore({ checkPeriod: 3600000 }),
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.SESSION_SECRET
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static('public'));
 
 
@@ -104,6 +121,7 @@ app.get('/publications/:userID', async (request, response) => {
     });
 });
 
+// Route pour afficher la page d'inscription.
 app.get('/compte', (request, response) => {
     response.render('compte', {
         title: 'Sign-Up',
@@ -112,28 +130,77 @@ app.get('/compte', (request, response) => {
     });
 });
 
-app.post('/compte', async (request, response) => {
-    console.log(
-        request.body.id_user,
-        request.body.email,
-        request.body.password,
-        request.body.name);
-        
-    let newUser = await addNewUser(
-        request.body.id_user,
-        request.body.email,
-        request.body.password,
-        request.body.name
-    );
+//Route pour inscrire un utilisateur dans la BD
+app.post('/compte', async (request, response, next) => {
+    
+  //  if(validateEmail(request.body.email) && validatePassword( request.body.password)){
+        try {
+            await addNewUser(
+                request.body.email,
+                request.body.password,
+                request.body.name
+            );
+            response.status(201).end();
+        }
 
-    response.status(200).json(newUser);
-});
+        catch (error){
+            if(error.code === 'SQLITE_CONSTRAINT'){
+                response.status(409).end();
+            }
+            else {
+                next(error);
+            }
+        }
+        
+    }
+  /*   else {
+        response.status(400).end();
+     }
+    
+}*/);
+
+//Route pour connecter un utilisateur
 app.get ('/login', (request, response) => {
     response.render('connexion', {
         title: 'login',
         styles: ['/css/connexion.css']
     });
 });
+
+//Route pour envoyer les données de connexion d'un utilisateur
+app.post('/login', (request, response, next) => {
+   // if(validateEmail(request.body.email) && validatePassword( request.body.password)){
+        passport.authenticate('local', (error, user, info) => {
+            if(error) {
+                next(error);
+            }
+            else if(!user){
+                response.status(401).json(info);
+            }
+            else {
+                request.logIn (user, (error) => {
+                    if(error) {
+                        next(error);
+                    }
+                    response.status(200).end();
+                });
+            }
+        })
+        (request, response, next);
+    }
+//}
+);
+
+//Route pour déconnecter un utilisateur
+app.post('/logout', (request, response) => {
+    request.logout((error) => {
+        if(error) {
+            next(error);
+        }
+    });
+    response.redirect('/');
+});
+
 // Renvoyer une erreur 404 pour les routes non définies
 app.use(function (request, response) {
     // Renvoyer simplement une chaîne de caractère indiquant que la page n'existe pas
