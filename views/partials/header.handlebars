@@ -1,7 +1,28 @@
 
 <header>
     <div class="wrapper">
-        <h1>Chat online</h1>
+        <h1>Clavardage en ligne</h1>
     </div>
-            
+        <nav>
+            <ul class="lien">
+                <li>
+                    <a href="/">Accueil</a>
+                </li>
+                {{#unless connected}}
+                    <li>
+                        <a href="/compte">Créer un compte</a>
+                    </li>
+                    <li>
+                        <a href="/login">Connexion</a>
+                    </li>
+                {{/unless}}
+                {{#if connected}}
+                    <li>
+                        <form method="post" action="/logout">
+                            <input type="submit" value="Déconnexion">
+                        </form>
+                    </li>
+                {{/if}}
+            </ul>
+        </nav>
 </header>

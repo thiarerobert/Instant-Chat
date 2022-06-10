@@ -4,13 +4,17 @@
 </div>
 
 <div>
-    <form id="formulaire" novalidate>
-        <textarea type="text" id="textPoste" cols="100" rows="10" required></textarea>
-        <div id="textPosteErreur" class="error-field"></div>
-        <input type="submit" value="Publier" id="bouton"></input>
-    
-    </form>
-
+    {{#if connected}}
+        <form id="formulaire" novalidate>
+            <textarea type="text" id="textPoste" cols="100" rows="10" required></textarea>
+            <div id="textPosteErreur" class="error-field"></div>
+            <input type="submit" value="Publier" id="bouton"></input>
+        
+        </form>
+    {{/if}}
+    {{#unless connected}}
+        <p>Connectez vous pour ajouter une publication.</p>
+    {{/unless}}
     <ul id="publication" class="publication">
         {{#each postes}}
             <li class="postes">

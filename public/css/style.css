@@ -17,7 +17,7 @@ header{
     flex-wrap: wrap;
     width: 100%;
     align-items: baseline;
-    justify-content:center;
+    justify-content:space-between;
     gap: 0 1rem;
 }
 
@@ -33,6 +33,15 @@ body {
 
 main {
     flex: 1;
+}
+
+.lien{
+    list-style-type: none;
+}
+
+li a{
+    color: #000;
+    font-weight: bold;
 }
 
 

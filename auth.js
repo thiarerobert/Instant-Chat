@@ -34,7 +34,7 @@ passport.serializeUser((user, done) => {
     done(null, user.email)
 });
 
-passport.deserializeUser (async (user, done) => {
+passport.deserializeUser (async (email, done) => {
     try {
         let user = await getNewUser(email);
         done(null, user);

@@ -1,12 +1,9 @@
-let compte = document.getElementById('compte');
+
+let connexionCompte = document.getElementById('formConnexion');
 let inputEmail = document.getElementById('textEmail');
 let inputPassword = document.getElementById('textPassword');
 
-/**
- * 
- * @param {Event} event 
- */
-export const getNewUser = async (event) => {
+connexionCompte.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     let data = {
@@ -14,15 +11,13 @@ export const getNewUser = async (event) => {
         password: inputPassword.value
     }
 
-    let response = await fetch ('/compte', {
+    let response = await fetch('/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify(data)
     });
 
     if(response.ok) {
         window.location.replace('/');
     }
-}
-
-compte.addEventListener('submit', getNewUser);
+})

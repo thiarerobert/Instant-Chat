@@ -57,7 +57,8 @@ app.get('/', async (request, response) =>{
         title: 'Publication',
         postes: mesPostes,
         scripts: ['/js/main.js'],
-        styles: ['/css/postes.css']
+        styles: ['/css/postes.css'],
+        connected: !!request.user
     });
     
 });
@@ -83,7 +84,8 @@ app.get ('/search', (request, response) => {
     response.render('search', {
         title: 'Recherche',
         scripts: ['/js/search.js'],
-        styles: ['/css/search.css']
+        styles: ['/css/search.css'],
+        connected: !!request.user
     });
 });
 
@@ -99,7 +101,8 @@ app.get('/search/:userName', async (request, response) => {
                 title: 'Recherche',
                 user: user,
                 scripts: ['/js/search.js'], 
-                styles: ['/css/user.css']
+                styles: ['/css/user.css'],
+                connected: !!request.user
             });
         }
         //Texte à retourner si l'utilisateur n'existe pas.
@@ -117,7 +120,8 @@ app.get('/publications/:userID', async (request, response) => {
     response.render('publications', {
         title: 'Publications de l\'utilisateur',
         postUser: postUser,
-        styles: ['/css/publications.css']
+        styles: ['/css/publications.css'],
+        connected: !!request.user
     });
 });
 
@@ -126,7 +130,8 @@ app.get('/compte', (request, response) => {
     response.render('compte', {
         title: 'Sign-Up',
         styles: ['/css/compte.css'],
-        scripts: ['/js/compte.js']
+        scripts: ['/js/compte.js'],
+        connected: !!request.user
     });
 });
 
@@ -163,14 +168,16 @@ app.post('/compte', async (request, response, next) => {
 app.get ('/login', (request, response) => {
     response.render('connexion', {
         title: 'login',
-        styles: ['/css/connexion.css']
+        styles: ['/css/connexion.css'],
+        scripts: ['/js/connexion.js'],
+        connected: !!request.user
     });
 });
 
 //Route pour envoyer les données de connexion d'un utilisateur
 app.post('/login', (request, response, next) => {
-   // if(validateEmail(request.body.email) && validatePassword( request.body.password)){
-        passport.authenticate('local', (error, user, info) => {
+   // if(validateEmail(request.body.email) && validatePassword( request.body.password)){   
+   passport.authenticate('local', (error, user, info) => {
             if(error) {
                 next(error);
             }
