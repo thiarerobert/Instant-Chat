@@ -60,6 +60,11 @@ if (IS_NEW) {
                     ON DELETE SET NULL 
                     ON UPDATE CASCADE
             );
+
+            CREATE TABLE IF NOT EXISTS suivis(
+                id_user INTEGER,
+                id_user_suivi INTEGER
+            );
             
             INSERT INTO user_types (type) VALUES 
                 ('regular'),

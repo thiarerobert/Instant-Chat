@@ -49,3 +49,17 @@ p {
 div {
     margin: 0 auto;
 }
+
+.error {
+    border: 2px solid #a00
+}
+
+.error-field {
+    display: none;
+    color: #a00;
+    font-style: italic;
+}
+
+.error-field.active {
+    display: block;
+}

@@ -1,16 +1,16 @@
 import connectionPromise from "./connection.js";
 import bcrypt from 'bcrypt';
 
-export const addNewUser = async ( email, password, name) => {
+export const addNewUser = async ( name, email, password) => {
     let connection = await connectionPromise;
     let passwordH = await bcrypt.hash(password, 10);
 
     let resultat = await connection.run(
         `
-            INSERT INTO users (id_user_type, email, password, name)
+            INSERT INTO users (id_user_type, name, email, password)
             VALUES (1, ?, ?, ?)
         `,
-        [email, passwordH, name]
+        [name, email, passwordH]
     );
 
     return resultat.lastID;

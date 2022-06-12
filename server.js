@@ -11,15 +11,16 @@ import cspOption from './csp-options.js';
 import session from 'express-session';
 import passport from 'passport';
 import './model/connection.js';
-import { addPoste, getPostes} from './model/mesPostes.js';
+import { addFollower, addPoste, getPostes} from './model/mesPostes.js';
 import { getUser } from './model/recherche.js';
 import { getPostUser } from './model/postesUser.js';
-import { textPosteValidation, searchValidation, validateEmail, validatePassword } from './validation.js';
+import { textPosteValidation, searchValidation, validationEmail, validationPassword, validationNom } from './validation.js';
 import { addNewUser } from './model/compte.js';
 import memorystore from 'memorystore';
 import { request } from 'express';
 import { response } from 'express';
 import './auth.js';
+import { likePost } from './model/like.js';
 
 
 
@@ -52,6 +53,7 @@ app.use(express.static('public'));
 
 // Routes GET pour accéder à toutes les publications 
 app.get('/', async (request, response) =>{
+    console.log(request.body);
     let mesPostes = await getPostes();
     response.render('postes', {
         title: 'Publication',
@@ -63,23 +65,44 @@ app.get('/', async (request, response) =>{
     
 });
 
-
 //Route GET pour ajouter une publication 
 app.post('/', async (request, response) => {
-
+    if(request.user){
         if(textPosteValidation(request.body.text)){
-            let idPoste = await addPoste (request.body.id_user, request.body.text);
+            let idPoste = await addPoste (request.user.id_user, request.body.text);
             response.status(200).json(idPoste);
         }
         else{
             response.status(400).end();
         }
+    }
+    else {
+        response.status(401).send('Veuillez vous connecter d\'abord!')
+    }   
   
 });
 
+app.post('/', (request, response) => {
+    let likes = likePost( request.body.id_post, request.user.id_user);
+    response.status(200).json(likes);
+});
+
+app.patch('/', async (request, response) => {
+    let followers = await addFollower(request.user.id_user, request.body.id_user);
+    response.status(200).end();
+})
 /*Reuqête GET pour afficher la page de recherche. 
 **L'utilisateur peut lancer sa recheche ici.
 */
+app.get ('/search', (request, response) => {
+    response.render('search', {
+        title: 'Recherche',
+        scripts: ['/js/search.js'],
+        styles: ['/css/search.css'],
+        connected: !!request.user
+    });
+});
+
 app.get ('/search', (request, response) => {
     response.render('search', {
         title: 'Recherche',
@@ -116,34 +139,44 @@ app.get('/search/:userName', async (request, response) => {
 app.get('/publications/:userID', async (request, response) => {
     
     let postUser = await getPostUser(request.params.userID);
-    
-    response.render('publications', {
-        title: 'Publications de l\'utilisateur',
-        postUser: postUser,
-        styles: ['/css/publications.css'],
-        connected: !!request.user
-    });
+
+    if(IdValidation(userID)){
+        response.render('publications', {
+            title: 'Publications de l\'utilisateur',
+            postUser: postUser,
+            styles: ['/css/publications.css'],
+            connected: !!request.user
+        });
+    }
+    else {
+        response.status(400).end();
+    }
 });
 
 // Route pour afficher la page d'inscription.
 app.get('/compte', (request, response) => {
-    response.render('compte', {
-        title: 'Sign-Up',
-        styles: ['/css/compte.css'],
-        scripts: ['/js/compte.js'],
-        connected: !!request.user
-    });
+    if(!request.user){
+        response.render('compte', {
+            title: 'Sign-Up',
+            styles: ['/css/compte.css'],
+            scripts: ['/js/compte.js'],
+            connected: !!request.user
+        });
+    }
+    else {
+        response.status(401).send('Veuillez vous connecter d\'abord!')
+    }
 });
 
 //Route pour inscrire un utilisateur dans la BD
 app.post('/compte', async (request, response, next) => {
     
-  //  if(validateEmail(request.body.email) && validatePassword( request.body.password)){
+    if(validationNom(request.body.name) && validationEmail(request.body.email) && validationPassword(request.body.password)){
         try {
             await addNewUser(
+                request.body.name,
                 request.body.email,
-                request.body.password,
-                request.body.name
+                request.body.password
             );
             response.status(201).end();
         }
@@ -156,28 +189,33 @@ app.post('/compte', async (request, response, next) => {
                 next(error);
             }
         }
-        
     }
-  /*   else {
+    else {
         response.status(400).end();
      }
-    
-}*/);
+        
+    });
 
 //Route pour connecter un utilisateur
 app.get ('/login', (request, response) => {
-    response.render('connexion', {
-        title: 'login',
-        styles: ['/css/connexion.css'],
-        scripts: ['/js/connexion.js'],
-        connected: !!request.user
-    });
+    if(!request.user){
+        response.render('connexion', {
+            title: 'login',
+            styles: ['/css/connexion.css'],
+            scripts: ['/js/connexion.js'],
+            connected: !!request.user
+        });
+    }
+
+    else {
+        response.status(401).send('Veuillez vous connecter d\'abord!')
+    }
 });
 
 //Route pour envoyer les données de connexion d'un utilisateur
-app.post('/login', (request, response, next) => {
-   // if(validateEmail(request.body.email) && validatePassword( request.body.password)){   
-   passport.authenticate('local', (error, user, info) => {
+app.post('/login', (request, response, next) => {
+    if(validationEmail(request.body.email) && validationPassword(request.body.password)){ 
+        passport.authenticate('local', (error, user, info) => {
             if(error) {
                 next(error);
             }
@@ -192,11 +230,13 @@ app.post('/login', (request, response, next) => {
                     response.status(200).end();
                 });
             }
-        })
+        })       
         (request, response, next);
     }
-//}
-);
+    else {
+        response.status(400).end();
+     }
+});
 
 //Route pour déconnecter un utilisateur
 app.post('/logout', (request, response) => {

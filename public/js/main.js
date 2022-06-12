@@ -3,6 +3,7 @@
 let formulaire = document.getElementById('formulaire');
 let textPoste = document.getElementById('textPoste');
 let textPosteErreur = document.getElementById('textPosteErreur');
+let followUsers = document.querySelectorAll('input[type=chekbox]');
 let date = new Date();
 
 //Fonction pour générer un model de publication avec les données 
@@ -41,7 +42,6 @@ const addPosteServeur = async (event) => {
     //Condition pour vérifier si les données saisies sont valides
     if(formulaire.checkValidity()){
         let data = {
-            id_user: 1,
             text : textPoste.value
         }
         // Envoie des données au serveur si c'est valide
@@ -54,7 +54,6 @@ const addPosteServeur = async (event) => {
         //Condition pour envoyer les données au client si c'est valide
         if(response.ok){
             addPosteClient({
-                id_user: 1,
                 text: textPoste.value
             });
 
@@ -63,5 +62,25 @@ const addPosteServeur = async (event) => {
     }
 }
 
+/**
+ * 
+ * @param {Event} event 
+ */
+const followUser = async (event) => {
+  
+    let data= {
+        id: event.target.dataset.id
+    };
+
+    fetch ('/', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(data)
+    });
+}
 //Appel de la fonction pour envoyer les données au serveur au click
 formulaire.addEventListener('submit', addPosteServeur);
+
+for(let checkbox of followUsers){
+    checkbox.addEventListener('change', followUser)
+}
