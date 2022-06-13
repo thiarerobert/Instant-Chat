@@ -32,6 +32,20 @@ export const addPoste = async (id_post ,id_user, text) => {
     return resultat.id_post;
 }
 
+//Fonction pour supprimer une publication dans la BD
+export const deletePoste = async (id_post)=> {
+    let connection = await connectionPromise;
+    let resultat = await connection.run(
+        `
+            DELETE 
+            FROM posts
+            WHERE id_post = ?
+        `,
+        [id_post]
+    )
+    return resultat
+}
+
 export const addFollower = async (id_user, id_user_suivi) =>{
     let connection = await connectionPromise;
     let resultat = await connection.run (

@@ -44,6 +44,13 @@ li a{
     font-weight: bold;
 }
 
+li input{
+    border: none;
+    background-color: #4f29b8;
+    font-weight: bold;
+}
+
+
 
 
 

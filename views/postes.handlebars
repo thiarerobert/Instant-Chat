@@ -14,34 +14,28 @@
     {{#unless connected}}
         <p>Connectez vous pour ajouter une publication.</p>
     {{/unless}}
-    <form id="formLike">
         <ul id="publication" class="publication">
             {{#each postes}}
                 <li class="postes">
                     <strong> {{this.name}}</strong> <br>
-                    {{this.datetime}}
-                    <div id="div">
-                                {{this.text}} 
-                                <div>
-                                    {{this.nbLikes}}
-                                    <input type="submit" value="J'aime"
-                                    data-id="{{this.id_post}}"
-                                    >
-                                        
-                                </div> 
-                                
-                        </div>
-                <!--  <input type="checkbox"
-                    {{#if this.checked}} checked {{/if}}
-                    data-id="{{this.id_user}}"
-                    >
-                    <label> Suivre</label>
-                    -->
+                    {{this.datetime}} <br>
+                    {{this.text}} 
+                    <div class="actionUser">
+                        <p>
+                            {{this.nbLikes}}<input type="submit" value="J'aime"
+                            data-id="{{this.id_post}}">
+                        </p>
+                        <input type="submit" value="Suivre">
+                        <form>
+                        <input id="boutonDelete" type="button" 
+                        value="Supprimer" data-id="{{this.id_post}}">
+                        </form>
+                    </div>
+                    
                 </li>
                     
             {{/each}}
         </ul>
-    </form>
 </div>
 
 

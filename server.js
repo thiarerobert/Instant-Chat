@@ -11,7 +11,7 @@ import cspOption from './csp-options.js';
 import session from 'express-session';
 import passport from 'passport';
 import './model/connection.js';
-import { addFollower, addPoste, getPostes} from './model/mesPostes.js';
+import { addFollower, addPoste, deletePoste, getPostes} from './model/mesPostes.js';
 import { getUser } from './model/recherche.js';
 import { getPostUser } from './model/postesUser.js';
 import { textPosteValidation, searchValidation, validationEmail, validationPassword, validationNom } from './validation.js';
@@ -246,6 +246,12 @@ app.post('/logout', (request, response) => {
         }
     });
     response.redirect('/');
+});
+
+//Route pour supprimer une publication.
+app.delete('/', async (request, response) => {
+    await deletePoste(request.body.id_post);
+    response.status(200).end();
 });
 
 // Renvoyer une erreur 404 pour les routes non définies

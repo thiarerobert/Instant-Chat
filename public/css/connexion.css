@@ -63,3 +63,8 @@ div {
 .error-field.active {
     display: block;
 }
+
+.formConnexionError{
+    color: #a00;
+    font-style: italic;
+}

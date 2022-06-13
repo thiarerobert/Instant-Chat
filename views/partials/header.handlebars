@@ -8,6 +8,7 @@
                 <li>
                     <a href="/">Accueil</a>
                 </li>
+
                 {{#unless connected}}
                     <li>
                         <a href="/compte">Créer un compte</a>
@@ -16,6 +17,7 @@
                         <a href="/login">Connexion</a>
                     </li>
                 {{/unless}}
+
                 {{#if connected}}
                     <li>
                         <form method="post" action="/logout">
@@ -23,6 +25,7 @@
                         </form>
                     </li>
                 {{/if}}
+
             </ul>
         </nav>
 </header>

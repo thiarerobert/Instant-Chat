@@ -25,14 +25,29 @@
     font-size: 20px;
     gap: 1rem;
     margin-bottom: 2rem;
+    
 }
 
-#div {
+.publication li {
+    padding-top: 1rem;
+}
+
+.actionUser {
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
+    gap: 2rem;
 }
 
+.actionUser input {
+    border: none;
+    background-color: #fff;
+    cursor: pointer; 
+}
+
+.actionUser input:hover{
+    background-color: #4f29b8;
+    border-radius: 3px;
+}
 #textPoste {
     border: 2px ridge;
 }
@@ -49,8 +64,7 @@
 }
 
 .postes {
-    border: 1px ridge;
-    
+    border-top: 1px ridge;
 }
 
 .like {

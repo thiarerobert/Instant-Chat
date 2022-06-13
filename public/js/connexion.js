@@ -68,5 +68,20 @@ connexionCompte.addEventListener('submit', async (event) => {
         if(response.ok) {
             window.location.replace('/');
         }
+        else
+        if(response.status === 401){
+            let data = await response.json();
+            formConnexionError.style.display = 'block';
+            formConnexionError.style.color = '#a00';
+
+            if(data.error === 'wrong_email'){
+                formConnexionError.innerText = 'L\'adresse courriel n\'existe pas.'
+            }
+            else 
+            if (data.error === 'wrong_password'){
+                formConnexionError.innerText = 'Le mot de passe saisi est incorrect.'
+                formConnexionError.style.color = '#a00';
+            }
+        }
     }
 })

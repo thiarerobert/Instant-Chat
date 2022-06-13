@@ -73,21 +73,27 @@ compte.addEventListener('submit', validatePassword);
 compte.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    if(compte.checkValidity()) {
-        let data = {
-            name: inputNom.value,
-            email: inputEmail.value,
-            password: inputPassword.value
-        }
-    
-        let response = await fetch('/compte', {
-            method: 'POST',
-            headers: { 'Content-Type' : 'application/json' },
-            body: JSON.stringify(data)
-        });
-    
-        if(response.ok) {
-            window.location.replace('/login');
+        if(compte.checkValidity()) {
+            let data = {
+                name: inputNom.value,
+                email: inputEmail.value,
+                password: inputPassword.value
+            }
+        
+            let response = await fetch('/compte', {
+                method: 'POST',
+                headers: { 'Content-Type' : 'application/json' },
+                body: JSON.stringify(data)
+            });
+        
+            if(response.ok) {
+                window.location.replace('/login');
+            }
+            else
+            if(response.status === 409){
+                formCompteError.style.display = 'block';
+                formCompteError.style.color = '#a00';
+                formCompteError.innerText = 'Un compte associé à cette adresse courriel existe déjà.'
         }
     }
 })
