@@ -3,7 +3,6 @@
 let formulaire = document.getElementById('formulaire');
 let textPoste = document.getElementById('textPoste');
 let textPosteErreur = document.getElementById('textPosteErreur');
-let followUsers = document.querySelectorAll('input[type=chekbox]');
 let date = new Date();
 
 //Fonction pour générer un model de publication avec les données 
@@ -56,31 +55,10 @@ const addPosteServeur = async (event) => {
             addPosteClient({
                 text: textPoste.value
             });
-
+            window.location.reload('/');
             textPoste.value = '';
         }
     }
 }
 
-/**
- * 
- * @param {Event} event 
- */
-const followUser = async (event) => {
-  
-    let data= {
-        id: event.target.dataset.id
-    };
-
-    fetch ('/', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(data)
-    });
-}
-//Appel de la fonction pour envoyer les données au serveur au click
 formulaire.addEventListener('submit', addPosteServeur);
-
-for(let checkbox of followUsers){
-    checkbox.addEventListener('change', followUser)
-}

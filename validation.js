@@ -19,7 +19,7 @@ export const searchValidation = (texte) => {
     return typeof texte === 'string' && !!texte;
  }
 
-export const IdValidation = (idUser) => {
+export const idValidation = (idUser) => {
    return typeof idUser === 'number' && !!idUser
  }
 

@@ -11,10 +11,12 @@ import cspOption from './csp-options.js';
 import session from 'express-session';
 import passport from 'passport';
 import './model/connection.js';
-import { addFollower, addPoste, deletePoste, getPostes} from './model/mesPostes.js';
+import {addPoste, getPostes} from './model/mesPostes.js';
+import { addFollower } from './model/suivre.js';
+import {deletePoste } from './model/delete.js';
 import { getUser } from './model/recherche.js';
 import { getPostUser } from './model/postesUser.js';
-import { textPosteValidation, searchValidation, validationEmail, validationPassword, validationNom } from './validation.js';
+import { textPosteValidation, searchValidation, idValidation, validationEmail, validationPassword, validationNom } from './validation.js';
 import { addNewUser } from './model/compte.js';
 import memorystore from 'memorystore';
 import { request } from 'express';
@@ -53,19 +55,19 @@ app.use(express.static('public'));
 
 // Routes GET pour accéder à toutes les publications 
 app.get('/', async (request, response) =>{
-    console.log(request.body);
-    let mesPostes = await getPostes();
+    let mesPostes = await getPostes();//request.user.id_user);
     response.render('postes', {
         title: 'Publication',
+        statut: request.user?.statut,
         postes: mesPostes,
-        scripts: ['/js/main.js'],
+        scripts: ['/js/main.js', '/js/delete.js'],
         styles: ['/css/postes.css'],
         connected: !!request.user
     });
     
 });
 
-//Route GET pour ajouter une publication 
+//Route POST pour ajouter une publication 
 app.post('/', async (request, response) => {
     if(request.user){
         if(textPosteValidation(request.body.text)){
@@ -82,15 +84,12 @@ app.post('/', async (request, response) => {
   
 });
 
-app.post('/', (request, response) => {
+//Route pour ajouter un like dans la BD
+app.patch('/', (request, response) => {
     let likes = likePost( request.body.id_post, request.user.id_user);
     response.status(200).json(likes);
 });
 
-app.patch('/', async (request, response) => {
-    let followers = await addFollower(request.user.id_user, request.body.id_user);
-    response.status(200).end();
-})
 /*Reuqête GET pour afficher la page de recherche. 
 **L'utilisateur peut lancer sa recheche ici.
 */
@@ -103,27 +102,16 @@ app.get ('/search', (request, response) => {
     });
 });
 
-app.get ('/search', (request, response) => {
-    response.render('search', {
-        title: 'Recherche',
-        scripts: ['/js/search.js'],
-        styles: ['/css/search.css'],
-        connected: !!request.user
-    });
-});
-
-
 //Route get pour retourner l'utilisateur rechercher dans le input Recherche.
 app.get('/search/:userName', async (request, response) => {
-    
     let user = await getUser(request.params.userName);
-    
+
     //Condition pour vérifier si le nom de l'utilisateur entré existe
         if(user){
             response.render('user', {
                 title: 'Recherche',
                 user: user,
-                scripts: ['/js/search.js'], 
+                scripts: ['/js/search.js', '/js/followUser.js'], 
                 styles: ['/css/user.css'],
                 connected: !!request.user
             });
@@ -140,18 +128,29 @@ app.get('/publications/:userID', async (request, response) => {
     
     let postUser = await getPostUser(request.params.userID);
 
-    if(IdValidation(userID)){
+    /*if(idValidation(request.params.userID)){*/
         response.render('publications', {
             title: 'Publications de l\'utilisateur',
             postUser: postUser,
             styles: ['/css/publications.css'],
             connected: !!request.user
         });
-    }
+   /* }
     else {
         response.status(400).end();
-    }
+    }*/
 });
+
+//Route pour suivre un utiisateur
+app.patch('/publications/:id_user', async (request, response) => {
+    if(request.user){
+        await addFollower(request.body.id_user, request.user?.id_user);
+        response.status(200).end();
+    }
+    else {
+        response.status(401).send('Veuillez vous connecter d\'abord!')
+    }
+})
 
 // Route pour afficher la page d'inscription.
 app.get('/compte', (request, response) => {
@@ -250,8 +249,13 @@ app.post('/logout', (request, response) => {
 
 //Route pour supprimer une publication.
 app.delete('/', async (request, response) => {
-    await deletePoste(request.body.id_post);
-    response.status(200).end();
+    if(request.user?.id_user_type >= 2){
+        await deletePoste(request.body.id_post);
+        response.status(200).end();
+    }
+    else {
+        response.status(403).end();
+    }
 });
 
 // Renvoyer une erreur 404 pour les routes non définies

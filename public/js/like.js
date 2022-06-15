@@ -1,13 +1,13 @@
 
-let formLike = document.getElementById('formLike');
+let like = document.getElementById('boutonLike');
 
-formLike.addEventListener('submit', async (event) => {
+like.addEventListener('click', async (event) => {
     let data = {
         id_post: event.target.dataset.id
     };
 
-    fetch('/', {
-        method: 'POST',
+    await fetch('/', {
+        method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
     }); 

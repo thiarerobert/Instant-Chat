@@ -18,7 +18,8 @@ if (IS_NEW) {
         await connection.exec(
             `CREATE TABLE IF NOT EXISTS user_types(
                 id_user_type INTEGER PRIMARY KEY,
-                type TEXT NOT NULL
+                type TEXT NOT NULL,
+                statut INTEGER
             );
 
             CREATE TABLE IF NOT EXISTS users(
@@ -66,9 +67,9 @@ if (IS_NEW) {
                 id_user_suivi INTEGER
             );
             
-            INSERT INTO user_types (type) VALUES 
-                ('regular'),
-                ('moderator');
+            INSERT INTO user_types (type, statut) VALUES 
+                ('regular', 0),
+                ('moderator', 1);
 
             INSERT INTO users (id_user_type, email, password, name) VALUES 
                 (1, 'test@test.com', 'test', 'VOTRE NOM'),
@@ -78,7 +79,8 @@ if (IS_NEW) {
                 (1, 'test4@test.com', 'test', 'Catherine Michael'),
                 (1, 'test5@test.com', 'test', 'Dave Marshall'),
                 (1, 'test6@test.com', 'test', 'Eve Trent'),
-                (1, 'test7@test.com', 'test', 'Michel Tremblay');
+                (1, 'test7@test.com', 'test', 'Michel Tremblay'),
+                (2, 'testRobert@test.com', 'Test1234', 'Administrator');
                 
             INSERT INTO posts (id_user, text, timestamp) VALUES
                 (2, 'dont be sad! you''re a small leaf and its ok to want to drown in a sea of video games?', 1643492169),
@@ -96,7 +98,13 @@ if (IS_NEW) {
                 (7, 'this is a warning: do not serenade berries?', 1649233276),
                 (7, 'i think its wrong to disregard me', 1641327106),
                 (8, 'im going to go back in time and pretend to be a sweater made of meat', 1646279709);
-                
+            
+            INSERT INTO suivis (id_user, id_user_suivi) VALUES
+                (10, 8),
+                (10, 5),
+                (10, 1),
+                (10, 2);
+
             INSERT INTO likes (id_post, id_user) VALUES
                 (1, 2),
                 (1, 4),

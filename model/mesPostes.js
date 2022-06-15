@@ -3,7 +3,7 @@ import connectionPromise from "./connection.js"
 /*Fonction qui retourne tous les name, text, timestamp et nombre 
 **de likes contenu dans la base de données
 */ 
-export const getPostes = async () =>{
+export const getPostes = async (id_user) =>{
     let connection = await connectionPromise;
     let resultat = await connection.all(
         `SELECT u.name, p.id_post, p.id_user, p.text, datetime (p.timestamp, 'unixepoch') as datetime, count(l.id_post) AS nbLikes
@@ -17,6 +17,8 @@ export const getPostes = async () =>{
         return resultat;
 }
 
+//INNER JOIN suivis s ON u.id_user = s.id_user
+//WHERE s.id_user = ?
 
 //Fonction pour ajouter une publication dans la base de données.
 export const addPoste = async (id_post ,id_user, text) => {

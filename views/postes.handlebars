@@ -1,8 +1,4 @@
 
-<div class="btnLinkRechercher">
-    <a href="/search">Recherche</a>
-</div>
-
 <div>
     {{#if connected}}
         <form id="formulaire" novalidate>
@@ -22,14 +18,14 @@
                     {{this.text}} 
                     <div class="actionUser">
                         <p>
-                            {{this.nbLikes}}<input type="submit" value="J'aime"
+                            {{this.nbLikes}}<input type="button" id="boutonLike" value="J'aime"
                             data-id="{{this.id_post}}">
                         </p>
-                        <input type="submit" value="Suivre">
-                        <form>
-                        <input id="boutonDelete" type="button" 
-                        value="Supprimer" data-id="{{this.id_post}}">
-                        </form>
+                        
+                        {{#if ../statut}}
+                            <input class="boutonDelete" type="button" 
+                            value="Supprimer" data-id="{{this.id_post}}">
+                        {{/if}}
                     </div>
                     
                 </li>

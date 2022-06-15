@@ -1,11 +1,3 @@
-.btnLinkRechercher {
-    width: 7rem;
-    height: 2rem;
-    font-size: 25px;
-    border-radius: 20%;
-    margin-left: 2rem;
-    background-color: #4f29b8;
-}
 
 .btnLinkRechercher a {
     color: #000;
@@ -13,9 +5,10 @@
 }
 
 #bouton {
-    width: 15rem;
+    width: 10rem;
     align-items: center;
     font-weight: bold;
+    background-color: #4f29b8;
 }
 
 .publication {

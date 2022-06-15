@@ -26,6 +26,22 @@
     width: 10rem;
     height: 10rem;
 }
+
+.suivi {
+    display: flex;
+    flex-direction: column;
+}
+
+.suivi input {
+    text-decoration: none;
+    width: 8rem;
+    height: 3rem;
+    margin: 0 auto;
+}
+
+.nomUser input {
+    text-decoration: none;
+}
 .divUser {
     display: flex;   
     width: 30rem;
