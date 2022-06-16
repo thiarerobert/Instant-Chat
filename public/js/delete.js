@@ -1,6 +1,7 @@
+//Récupération de toutes les classes des boutons delete 
+let boutonDelete = document.querySelectorAll('.boutonDelete');
 
-let bouton = document.querySelectorAll('.boutonDelete');
-
+//Fonction pour envoyer le ID de la publication à supprimer au serveur
 const deletePoste = async (event) =>{
     let data = {
         id_post: event.target.dataset.id
@@ -15,7 +16,8 @@ const deletePoste = async (event) =>{
         window.location.reload('/');
     }
 }
- 
-for( let bout of bouton){
-    bout.addEventListener('click', deletePoste);
+
+//Boucle for pour récupérer chaque bouton dans le tableau
+for( let bouton of boutonDelete){
+    bouton.addEventListener('click', deletePoste);
 }

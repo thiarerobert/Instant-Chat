@@ -12,7 +12,7 @@ import session from 'express-session';
 import passport from 'passport';
 import './model/connection.js';
 import {addPoste, getPostes} from './model/mesPostes.js';
-import { addFollower } from './model/suivre.js';
+import { addFollower, deleteFollower } from './model/suivre.js';
 import {deletePoste } from './model/delete.js';
 import { getUser } from './model/recherche.js';
 import { getPostUser } from './model/postesUser.js';
@@ -22,7 +22,7 @@ import memorystore from 'memorystore';
 import { request } from 'express';
 import { response } from 'express';
 import './auth.js';
-import { likePost } from './model/like.js';
+import { Deletelike, likePost } from './model/like.js';
 
 
 
@@ -60,7 +60,7 @@ app.get('/', async (request, response) =>{
         title: 'Publication',
         statut: request.user?.statut,
         postes: mesPostes,
-        scripts: ['/js/main.js', '/js/delete.js'],
+        scripts: ['/js/main.js', '/js/delete.js', '/js/like.js'],
         styles: ['/css/postes.css'],
         connected: !!request.user
     });
@@ -86,8 +86,43 @@ app.post('/', async (request, response) => {
 
 //Route pour ajouter un like dans la BD
 app.patch('/', (request, response) => {
-    let likes = likePost( request.body.id_post, request.user.id_user);
-    response.status(200).json(likes);
+    if(request.user){
+        let likes = likePost( request.body.id_post, request.user?.id_user);
+        response.status(200).json(likes);
+    }
+    
+    else {
+        response.status(401).send('Veuillez vous connecter d\'abord!')
+    } 
+});
+
+/**
+ * Route créé pour enlever un like dèjà ajouté dans la BD
+ * Le verbe PUT est utilisé ici pour ne pas créer une confusion 
+ * avec la verbe DELETE qui permet de supprimer une publication
+ */
+app.put('/', (request, response) => {
+    if(request.user){
+        let deleteLike = Deletelike(request.body.id_post, request.user?.id_user);
+        response.status(200).json(deleteLike);
+    }
+    else {
+        response.status(401).send('Veuillez vous connecter d\'abord!')
+    } 
+});
+
+//Route pour supprimer une publication.
+app.delete('/', async (request, response) => {
+    console.log(request.body)
+    /*Condition pour que seul un utilisateur connecté
+    et ayant un id_user_type >= 2 puis accéder à cette route*/
+    if(request.user?.id_user_type >= 2){
+        await deletePoste(request.body.id_post);
+        response.status(200).end();
+    }
+    else {
+        response.status(403).end();
+    }
 });
 
 /*Reuqête GET pour afficher la page de recherche. 
@@ -152,6 +187,16 @@ app.patch('/publications/:id_user', async (request, response) => {
     }
 })
 
+//Route pour ne plus suivre un utiisateur
+app.delete('/publications/:id_user', async (request, response) => {
+    if(request.user){
+        await deleteFollower(request.body.id_user, request.user?.id_user);
+        response.status(200).end();
+    }
+    else {
+        response.status(401).send('Veuillez vous connecter d\'abord!')
+    }
+})
 // Route pour afficher la page d'inscription.
 app.get('/compte', (request, response) => {
     if(!request.user){
@@ -169,7 +214,7 @@ app.get('/compte', (request, response) => {
 
 //Route pour inscrire un utilisateur dans la BD
 app.post('/compte', async (request, response, next) => {
-    
+    //Validation les données envoyés au serveur
     if(validationNom(request.body.name) && validationEmail(request.body.email) && validationPassword(request.body.password)){
         try {
             await addNewUser(
@@ -213,6 +258,7 @@ app.get ('/login', (request, response) => {
 
 //Route pour envoyer les données de connexion d'un utilisateur
 app.post('/login', (request, response, next) => {
+    //Validation des données envoyé au serveur
     if(validationEmail(request.body.email) && validationPassword(request.body.password)){ 
         passport.authenticate('local', (error, user, info) => {
             if(error) {
@@ -245,17 +291,6 @@ app.post('/logout', (request, response) => {
         }
     });
     response.redirect('/');
-});
-
-//Route pour supprimer une publication.
-app.delete('/', async (request, response) => {
-    if(request.user?.id_user_type >= 2){
-        await deletePoste(request.body.id_post);
-        response.status(200).end();
-    }
-    else {
-        response.status(403).end();
-    }
 });
 
 // Renvoyer une erreur 404 pour les routes non définies

@@ -18,10 +18,11 @@
                     {{this.text}} 
                     <div class="actionUser">
                         <p>
-                            {{this.nbLikes}}<input type="button" id="boutonLike" value="J'aime"
+                            {{this.nbLikes}}<input type="button" class="boutonLike" value="J'aime"
                             data-id="{{this.id_post}}">
                         </p>
-                        
+                        <input type="button" class="boutonDislike" value="Je n'aime plus"
+                            data-id="{{this.id_post}}">
                         {{#if ../statut}}
                             <input class="boutonDelete" type="button" 
                             value="Supprimer" data-id="{{this.id_post}}">
