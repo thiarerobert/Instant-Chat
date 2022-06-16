@@ -2,6 +2,8 @@
 import 'dotenv/config';
 
 // Importer les fichiers et librairies
+import https from 'https';
+import { readFile } from 'fs/promises';
 import express, { json, urlencoded } from 'express';
 import expressHandlebars from 'express-handlebars';
 import helmet from 'helmet';
@@ -300,6 +302,17 @@ app.use(function (request, response) {
 });
 
 // Démarrage du serveur
-app.listen(process.env.PORT);
 console.info(`Serveurs démarré:`);
-console.info(`http://localhost:${ process.env.PORT }`);
+if(process.env.NODE_ENV === 'production'){
+    app.listen(process.env.PORT);
+    console.info(`http://localhost:${ process.env.PORT }`);
+}
+else {
+    const credentials = {
+        key: await readFile('./security/localhost.key'),
+        cert: await readFile('./security/localhost.cert'),
+    }
+    https.createServer(credentials, app).listen(process.env.PORT);
+    console.info(`https://localhost:${ process.env.PORT }`);
+}
+
