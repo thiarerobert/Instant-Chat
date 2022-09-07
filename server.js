@@ -62,7 +62,7 @@ app.get('/', async (request, response) =>{
         title: 'Publication',
         statut: request.user?.statut,
         postes: mesPostes,
-        scripts: ['/js/main.js', '/js/delete.js', '/js/like.js'],
+        scripts: ['/js/main.js', '/js/delete.js', '/js/like.js', '/js/search.js'],
         styles: ['/css/postes.css'],
         connected: !!request.user
     });
@@ -115,7 +115,6 @@ app.put('/', (request, response) => {
 
 //Route pour supprimer une publication.
 app.delete('/', async (request, response) => {
-    console.log(request.body)
     /*Condition pour que seul un utilisateur connecté
     et ayant un id_user_type >= 2 puis accéder à cette route*/
     if(request.user?.id_user_type >= 2){
@@ -125,18 +124,6 @@ app.delete('/', async (request, response) => {
     else {
         response.status(403).end();
     }
-});
-
-/*Reuqête GET pour afficher la page de recherche. 
-**L'utilisateur peut lancer sa recheche ici.
-*/
-app.get ('/search', (request, response) => {
-    response.render('search', {
-        title: 'Recherche',
-        scripts: ['/js/search.js'],
-        styles: ['/css/search.css'],
-        connected: !!request.user
-    });
 });
 
 //Route get pour retourner l'utilisateur rechercher dans le input Recherche.

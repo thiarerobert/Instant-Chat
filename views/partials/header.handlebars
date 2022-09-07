@@ -1,35 +1,26 @@
 
 <header>
     <div class="wrapper">
-        <h1>Clavardage en ligne</h1>
+        <a href="/">
+            <h1>Clavardage en ligne</h1>
+        </a>
     </div>
-        <nav>
-            <ul class="lien">
-                <li>
-                    <a href="/">Accueil</a>
-                </li>
+    <form id="utilisateur" class="div" novalidate>
+                    
+        <input type="text" id="search" required class="input-text">
+        <input type="submit" value="Rechercher" class="btnRecherche">
+        <div id="searchError" class="error-field"></div>
+        </form>
+            {{#unless connected}}
+                <button class="button-connexion">
+                    <a href="/login">Connexion</a>
+                </button>
+            {{/unless}}
 
-                {{#unless connected}}
-                    <li>
-                        <a href="/compte">Créer un compte</a>
-                    </li>
-                    <li>
-                        <a href="/login">Connexion</a>
-                    </li>
-                {{/unless}}
-
-                {{#if connected}}
-                    <li>
-                        <form method="post" action="/logout">
-                            <input type="submit" value="Déconnexion">
-                        </form>
-                    </li>
-                {{/if}}
-
-                    <li>
-                        <a href="/search">Recherche</a>
-                    </li>
-
-            </ul>
-        </nav>
+            {{#if connected}}
+                <form method="post" action="/logout">
+                    <input type="submit" value="Déconnexion" class="button-deconnexion">
+                </form>
+                    
+            {{/if}}
 </header>

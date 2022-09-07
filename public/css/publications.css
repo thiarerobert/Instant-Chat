@@ -1,28 +1,40 @@
 .publication {
-    list-style-type: none;
-    font-size: 20px;
-    width: 75%;
-    margin: 0 auto;
-    gap: 1rem;
+    width: 50%;
+    margin: auto;
+    margin-top: 4rem;
 }
 
-.div {
+.all-publication {
     display: flex;
-    align-items: baseline;
+    flex-direction: column;
+    gap: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.1);
+}
+
+.one-pub {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+    border: 1px ridge;
+}
+
+.top-line {
+    display: flex;
     justify-content: space-between;
 }
 
-.post {
-    border: 1px solid;
+.bottom-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bottom-line-left {
+    display: flex;
+    padding-left: 2rem;    
 }
 
 .like {
     width: 20px;
     height: 20px;
-}
-
-.retour {
-    text-decoration: none;
-    font-size: 20px;
-    color: #000;
 }

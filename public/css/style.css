@@ -7,8 +7,13 @@ html {
 }
 
 header, footer {
-    background-color: #4f29b8;
     padding: 1rem;
+    background-color: #4f29b8;
+}
+
+.wrapper a{
+    color: white;
+    text-decoration: none;
 }
 
 header{
@@ -18,8 +23,9 @@ header{
     width: 100%;
     align-items: baseline;
     justify-content:space-between;
-    gap: 0 1rem;
+    
 }
+
 
 footer {
     font-size: 20px;
@@ -37,22 +43,84 @@ main {
 
 .lien{
     list-style-type: none;
+    display: flex;
+    gap: 1rem;
+    
+}
+.button-connexion a{
+    text-decoration: none;
+}
+.button-connexion {
+    padding: .5rem;
+    border-radius: 15px;
+    font-weight: bold;
+    background: white;
+}
+.button-connexion a{
+    color:#4f29b8;
 }
 
-li a{
-    color: #000;
-    font-weight: bold;
+.button-connexion:hover{
+    border: 1px solid white;
+    background-color:#4f29b8;
+}
+.button-connexion a:hover{
+    color: white;
 }
 
-li input{
-    border: none;
-    background-color: #4f29b8;
+.button-deconnexion {
+    padding: .5rem;
+    border-radius: 15px;
     font-weight: bold;
-    text-decoration: underline;
+    background: white;
+    color:#4f29b8;
     cursor: pointer;
 }
+.button-deconnexion:hover{
+    border: 1px solid white;
+    background-color:#4f29b8;
+    color: white;
+}
 
 
+*****************************************************
+.div {
+    display: flex;
+}
+.btnRecherche{
+    border: 1px solid;
+    padding: .3rem;
+    width: 7rem;
+    border-radius:0px 30px 30px 0px;
+}
+
+#search{
+    border: 2px solid;
+    padding: .5rem;
+    border-radius: 30px 0px 0px 30px;
+}
+
+.error {
+    border: 2px solid #a00
+}
+
+.error-field {
+    margin-left: 10rem;
+    margin-top: 1rem;
+    display: none;
+    color: #a00;
+    font-style: italic;
+}
+
+.error-field.active {
+    display: block;
+}
+
+
+
+.nameUser {
+    list-style-type: none;
+}
 
 
 

@@ -1,80 +1,71 @@
-
-.btnLinkRechercher a {
-    color: #000;
-    text-decoration: none;
-}
-
-#bouton {
-    width: 10rem;
-    align-items: center;
-    font-weight: bold;
-    background-color: #4f29b8;
-}
-
-.publication {
-    list-style-type: none;
-    width: 75%;
-    margin: 0 auto;
-    font-size: 20px;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    
-}
-
-.publication li {
-    padding-top: 1rem;
-}
-
-.actionUser {
-    display: flex;
-    align-items: baseline;
-    gap: 2rem;
-}
-
-.actionUser input {
-    border: none;
-    background-color: #fff;
-    cursor: pointer; 
-}
-
-.actionUser input:hover{
-    background-color: #4f29b8;
-    border-radius: 3px;
-}
-#textPoste {
-    border: 2px ridge;
-}
-#formulaire {
+.post {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
-    margin: 0 auto;
-    max-width: 50rem;
-    margin-bottom: 2rem;
-    
+    width: 50%;
+    margin: auto;
+    margin-top: 4rem;
 }
 
-.postes {
+.post-top {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+    margin-bottom: 5rem;
+    gap: 1rem;
+}
+
+.post textarea {
+    border: 2px solid #4f29b8;
+}
+
+.post-top input {
+    width: 10rem;
+    padding: .5rem;
+    border-radius: 25px;
+    background-color: #4f29b8;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.post-top input:hover {
+    border:1px solid #4f29b8;
+    background: none;
+    color: #4f29b8;
+}
+
+.post-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border: 1px ridge;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.1);
+}
+
+.post-bottom-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-bottom-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-bottom-bottom{
     border-top: 1px ridge;
+}
+
+.post-bottom-bottom input{
+    text-decoration: none;
+    border: none;
+    background-color: white;
 }
 
 .like {
     width: 20px;
     height: 20px;
-}
-
-.error {
-    border: 2px solid #a00
-}
-
-.error-field {
-    display: none;
-    color: #a00;
-    font-style: italic;
-}
-
-.error-field.active {
-    display: block;
 }
