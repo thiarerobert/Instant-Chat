@@ -4,7 +4,7 @@ import connectionPromise from "./connection.js";
 et le nombre de likes du nom de l'utilisateur entré*/
 export const getPostUser = async (id_user) => {
     let connexion = await connectionPromise;
-    let resultat = await connexion.all(
+    let resultat = await connexion.query(
         `
             SELECT u.name, p.text, datetime (p.timestamp, 'unixepoch') as datetime, COUNT(l.id_post) AS nbLikes
             FROM posts p

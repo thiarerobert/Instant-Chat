@@ -3,7 +3,7 @@ import connectionPromise from "./connection.js";
 //Fonction pour ajouter un follower dans dans la BD 
 export const addFollower = async (id_user_suivi, id_user) =>{
     let connection = await connectionPromise;
-        let resultat = await connection.run (
+        let resultat = await connection.query (
             `
                 INSERT INTO suivis (id_user_suivi, id_user)
                 VALUES (?, ?)
@@ -18,7 +18,7 @@ export const addFollower = async (id_user_suivi, id_user) =>{
 //Fonction pour supprimer un follower dans dans la BD 
 export const deleteFollower = async (id_user_suivi, id_user) =>{
     let connection = await connectionPromise;
-        let resultat = await connection.run (
+        let resultat = await connection.query (
             `
                 DELETE
                 FROM suivis

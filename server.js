@@ -21,8 +21,8 @@ import { getPostUser } from './model/postesUser.js';
 import { textPosteValidation, searchValidation, idValidation, validationEmail, validationPassword, validationNom } from './validation.js';
 import { addNewUser } from './model/compte.js';
 import memorystore from 'memorystore';
-import { request } from 'express';
-import { response } from 'express';
+//import { request } from 'express';
+//import { response } from 'express';
 import './auth.js';
 import { Deletelike, likePost } from './model/like.js';
 
@@ -102,7 +102,7 @@ app.patch('/', (request, response) => {
  * Route créé pour enlever un like dèjà ajouté dans la BD
  * Le verbe PUT est utilisé ici pour ne pas créer une confusion 
  * avec la verbe DELETE qui permet de supprimer une publication
- */
+ **/
 app.put('/', (request, response) => {
     if(request.user){
         let deleteLike = Deletelike(request.body.id_post, request.user?.id_user);
@@ -152,17 +152,17 @@ app.get('/publications/:userID', async (request, response) => {
     
     let postUser = await getPostUser(request.params.userID);
 
-    /*if(idValidation(request.params.userID)){*/
+    if(idValidation(request.params.userID)){
         response.render('publications', {
             title: 'Publications de l\'utilisateur',
             postUser: postUser,
             styles: ['/css/publications.css'],
             connected: !!request.user
         });
-   /* }
+    }
     else {
         response.status(400).end();
-    }*/
+    }
 });
 
 //Route pour suivre un utiisateur

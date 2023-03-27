@@ -8,19 +8,21 @@ const config = {
     passportField: 'password'
 };
 
+
 passport.use(new Strategy(config, async (email, password, done) => {
     try {
         let user = await getNewUser(email);
-
+        
         if(!user) {
             return done(null, false, { error: 'wrong_email'});
         }
 
-        const valid = await bcrypt.compare(password, user.password);
+        const valid = await bcrypt.compare(password, user[0].password);
+        
         if(!valid) {
             return done(null, false, { error: 'wrong_password'});
         }
-
+        
         return done(null, user);
     }
     catch(error) {
@@ -31,7 +33,7 @@ passport.use(new Strategy(config, async (email, password, done) => {
 
 //Sauvegarder la=e email dans la BD session
 passport.serializeUser((user, done) => {
-    done(null, user.email)
+    done(null, user[0].email)
 });
 
 passport.deserializeUser (async (email, done) => {

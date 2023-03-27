@@ -4,7 +4,7 @@ import connectionPromise from "./connection.js";
 export const likePost = async (id_post, id_user) => {
 
     let connection = await connectionPromise;
-    let resultat = await connection.run(
+    let resultat = await connection.query(
         `
             INSERT INTO likes (id_post, id_user)
             VALUES (?, ?)
@@ -18,7 +18,7 @@ export const likePost = async (id_post, id_user) => {
 export const Deletelike = async (id_post, id_user) => {
 
     let connection = await connectionPromise;
-    let resultat = await connection.run(
+    let resultat = await connection.query(
         `
             DELETE
             FROM likes
