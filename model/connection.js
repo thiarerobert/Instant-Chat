@@ -3,10 +3,10 @@ import mysql from 'promise-mysql';
 
 // Base de données dans un fichier
 let connectionPromise = mysql.createPool({
-    database: 'mabase',
-    host: 'localhost',
-    user: 'root',
-    password: ''
+    database: process.env.DATABASE_NAME,
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD
 });
 
 // Si le fichier de base de données n'existe pas, on crée la base de données
@@ -26,7 +26,7 @@ let connectionPromise = mysql.createPool({
                 CREATE TABLE IF NOT EXISTS users(
                     id_user INTEGER PRIMARY KEY auto_increment,
                     id_user_type INTEGER NOT NULL,
-                    email TEXT NOT NULL UNIQUE,
+                    email VARCHAR (100) NOT NULL UNIQUE,
                     password TEXT NOT NULL,
                     name TEXT NOT NULL,
                     CONSTRAINT fk_user_type 
