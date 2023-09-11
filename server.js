@@ -302,4 +302,4 @@ else {
     https.createServer(credentials, app).listen(process.env.PORT);
     console.info(`https://localhost:${ process.env.PORT }`);
 }
-
+module.exports = app;
