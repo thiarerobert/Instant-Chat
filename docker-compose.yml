@@ -1,0 +1,29 @@
+version: '3.9'
+networks:
+  - instat-net
+services:
+  web:
+    image: instat-chart:develop
+    environment:
+      - HOST=mabase
+      - USER=root
+      - MY_DB=mabase
+      - PASSWORD='secret'
+      - SESSION_SECRET='frwfr2948KFJFHFH997336!!@*8'
+      - PORT='3000'
+    depends_on:
+      - mabase
+    networks:
+      - instat-net
+    ports:
+      - "3000:3000"
+  
+  mabase:
+    images: mysql:latest
+    environment:
+      - MYSQL_DATABASE='mabase'
+      - MYSQL_ROOT_PASSWORD='secret'
+    networks:
+      - instat-net
+    volumes:
+      - ./data:/var/lib/instat-chart
